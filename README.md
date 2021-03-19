@@ -25,3 +25,359 @@
 ## New to FLutter ?
 Try installing through [FlutterMatic](https://fluttermatic.github.io/#/)
 
+
+
+
+
+<!DOCTYPE html>
+
+<!-- Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
+     for details. All rights reserved. Use of this source code is governed by a
+     BSD-style license that can be found in the LICENSE file. -->
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="dart-32.png">
+    <link rel="shortcut icon" type="image/png" sizes="64x64" href="dart-64.png">
+    <link rel="shortcut icon" type="image/png" sizes="192x192" href="dart-192.png">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <title>DartPad</title>
+
+    <!-- styles -->
+    <link href="styles/styles.css" rel="stylesheet" media="screen">
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+    <!-- codemirror -->
+    <link href="packages/codemirror/css/codemirror.css" rel="stylesheet" media="screen">
+    <script src="packages/codemirror/codemirror.js" defer></script>
+
+    <!-- codemirror add-ons -->
+    <link href="packages/codemirror/addon/lint/lint.css" rel="stylesheet" media="screen">
+    <link href="packages/codemirror/addon/hint/show-hint.css" rel="stylesheet" media="screen">
+    <script src="packages/codemirror/addon/scroll/simplescrollbars.js" defer></script>
+
+    <!-- codemirror themes -->
+    <link href="styles/cm-scrollbars.css" rel="stylesheet" media="screen">
+    <link href="styles/cm-dartpad-dark.css" rel="stylesheet" media="screen">
+    <link href="styles/cm-dartpad-light.css" rel="stylesheet" media="screen">
+
+    <!-- third party javascript -->
+    <script src="packages/split/split.min.js" defer></script>
+
+    <!-- material design -->
+    <script src="packages/mdc_web/material-components-web.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- check that local storage is enabled -->
+    <script src="scripts/check_localstorage.js"></script>
+
+    <!-- dart -->
+    <script defer src="scripts/playground.dart.js"></script>
+
+    <!-- javascript -->
+    <script src="scripts/ga.js" defer></script>
+</head>
+
+<body>
+
+<header class="mdc-elevation--z4">
+    <div class="header-title">
+        <img src="dart-192.png" alt="DartPad Logo" class="logo"/>
+        <span>DartPad</span>
+    </div>
+    <div>
+        <button type="button" id="new-button" class="mdc-button">
+            <i class="material-icons mdc-button__icon">code</i>
+            New Pad
+        </button>
+        <button type="button" id="reset-button" class="mdc-button">
+            <i class="material-icons mdc-button__icon">refresh</i>
+            Reset
+        </button>
+        <button type="button" id="format-button" class="mdc-button">
+            <i class="material-icons mdc-button__icon">format_align_left</i>
+            Format
+        </button>
+        <button type="button" id="install-button" class="mdc-button">
+            <i class="material-icons mdc-button__icon">get_app</i>
+            Install SDK
+        </button>
+    </div>
+    <div class="header-gist-name"></div>
+    <div>
+        <button type="button" id="samples-dropdown-button" class="mdc-button">
+            <span class="mdc-button__label">Samples</span>
+            <i class="material-icons mdc-button__icon" aria-hidden="true">expand_more</i>
+        </button>
+        <div id="samples-menu" class="mdc-menu mdc-menu-surface"></div>
+    </div>
+    <div>
+        <button id="more-menu-button" class="mdc-icon-button material-icons">
+            more_vert
+        </button>
+        <div id="more-menu" class="mdc-menu mdc-menu-surface">
+            <ul class="mdc-list" role="menu" aria-hidden="true"
+                aria-orientation="vertical" tabindex="-1">
+                <li class="mdc-list-item" role="menuitem">
+                    <span class="mdc-list-item__graphic">
+                        <i class="material-icons mdc-select__icon" tabindex="-1" role="button">launch</i>
+                    </span>
+                    <span class="mdc-list-item__text">Share</span>
+                </li>
+                <li class="mdc-list-item" role="menuitem">
+                    <span class="mdc-list-item__graphic">
+                        <i class="material-icons mdc-select__icon" tabindex="-1" role="button">launch</i>
+                    </span>
+                    <span class="mdc-list-item__text">DartPad on GitHub</span>
+                </li>
+                <li class="mdc-list-item" role="menuitem">
+                    <span class="mdc-list-item__graphic">
+                        <i class="material-icons mdc-select__icon" tabindex="-1" role="button">launch</i>
+                    </span>
+                    <span class="mdc-list-item__text">dart.dev</span>
+                </li>
+                <li class="mdc-list-item" role="menuitem">
+                    <span class="mdc-list-item__graphic">
+                        <i class="material-icons mdc-select__icon" tabindex="-1" role="button">launch</i>
+                    </span>
+                    <span class="mdc-list-item__text">flutter.dev</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<section class="main-section">
+    <div class="splash"></div>
+    <div class="panels">
+        <div id="editor-panel">
+            <div id="editor-panel-header" class="header">
+                <nav>
+                    <div id="web-tab-bar" class="mdc-tab-bar" role="tablist">
+                        <div class="mdc-tab-scroller">
+                            <div class="mdc-tab-scroller__scroll-area">
+                                <div class="mdc-tab-scroller__scroll-content">
+                                    <button id="dart-tab"
+                                            class="mdc-tab mdc-tab--active"
+                                            role="tab" aria-selected="true"
+                                            tabindex="0">
+                                             <span class="mdc-tab__content">
+                                                 <span class="mdc-tab__text-label">Dart</span>
+                                             </span>
+                                        <span class="mdc-tab-indicator mdc-tab-indicator--active">
+                                                 <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                             </span>
+                                        <span class="mdc-tab__ripple"></span>
+                                    </button>
+                                    <button id="html-tab"
+                                            class="mdc-tab mdc-tab" role="tab"
+                                            tabindex="0">
+                                             <span class="mdc-tab__content">
+                                                 <span class="mdc-tab__text-label">HTML</span>
+                                             </span>
+                                        <span class="mdc-tab-indicator mdc-tab-indicator">
+                                                 <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                             </span>
+                                        <span class="mdc-tab__ripple"></span>
+                                    </button>
+                                    <button id="css-tab" class="mdc-tab mdc-tab"
+                                            role="tab" tabindex="0">
+                                             <span class="mdc-tab__content">
+                                                 <span class="mdc-tab__text-label">CSS</span>
+                                            </span>
+                                        <span class="mdc-tab-indicator mdc-tab-indicator">
+                                                 <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                             </span>
+                                        <span class="mdc-tab__ripple"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="button-group">
+                <div id="dartbusy" class="busylight"></div>
+                <button type="button" id="run-button"
+                        class="mdc-button mdc-button--raised mdc-button--dense">
+                    <i class="material-icons mdc-button__icon">play_arrow</i>
+                    Run
+                </button>
+            </div>
+            <div id="editor-host"></div>
+            <div id="editor-panel-footer" class="editor-tab-host border-top">
+                <div class="editor-tabs">
+                    <div class="tab-group">
+                        <button id="editor-panel-console-tab"
+                                class="editor-tab mdc-button">
+                            Console
+                            <span id="unread-console-counter" class="Counter"
+                                  hidden></span>
+                        </button>
+                        <button id="editor-panel-docs-tab"
+                                class="editor-tab mdc-button">Documentation
+                        </button>
+                    </div>
+                    <button id="editor-panel-close-button"
+                            class="mdc-icon-button material-icons" hidden>close
+                    </button>
+                </div>
+                <div id="editor-panel-tab-host">
+                    <div id="left-output-panel" class="console custom-scrollbar">
+                        <span id="left-output-label" class="view-label">Console</span>
+                    </div>
+                    <div id="left-doc-panel" class="documentation custom-scrollbar">
+                        <span id="left-doc-label" class="view-label">Documentation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="output-panel">
+            <span id="web-output-label" class="view-label absolute">UI Output</span>
+            <iframe id="frame" sandbox="allow-scripts" flex
+                    src="scripts/frame_dark.html"></iframe>
+            <div id="right-output-panel">
+                <span class="view-label">Console</span>
+                <div id="right-output-panel-content" class="console custom-scrollbar"></div>
+            </div>
+            <div id="right-doc-panel">
+                <span id="right-doc-label" class="view-label">Documentation</span>
+                <div id="right-doc-panel-content" class="documentation custom-scrollbar"></div>
+            </div>
+        </div>
+    </div>
+    <div class="mdc-snackbar">
+        <div class="mdc-snackbar__surface">
+            <div class="mdc-snackbar__label"
+                 role="status"
+                 aria-live="polite">
+            </div>
+        </div>
+    </div>
+    <div id="flash-container">
+        <div id="test-result-box" class="flash flash-warn" hidden>
+            <div title="Close" class="close-flash-container">
+                <button class="close-flash-button mdc-icon-button material-icons">close</button>
+            </div>
+            <div class="message-container custom-scrollbar"></div>
+        </div>
+        <div id="hint-box" class="flash" hidden>
+            <<div title="Close" class="close-flash-container">
+                <button class="close-flash-button mdc-icon-button material-icons">close</button>
+            </div>
+            <div class="message-container custom-scrollbar"></div>
+        </div>
+        <div id="issues" hidden></div>
+    </div>
+</section>
+
+<footer>
+    <div id="keyboard-button" class="keyboard footer-item"></div>
+    <div class="footer-item">
+        <a href="https://dart.dev/tools/dartpad/privacy"
+           target="repo" class="footer-item">Privacy notice</a>
+        <a href="https://github.com/dart-lang/dart-pad/issues"
+           target="repo">Send feedback</a>
+    </div>
+    <div class="footer-item">
+        <div id="null-safety-switch" class="mdc-switch" title="Null safety is currently disabled">
+            <div class="mdc-switch__track"></div>
+            <div class="mdc-switch__thumb-underlay">
+                <div class="mdc-switch__thumb"></div>
+                <input type="checkbox" id="basic-switch" class="mdc-switch__native-control" role="switch" aria-checked="false">
+            </div>
+        </div>
+        <label for="basic-switch">Null Safety</label>
+    </div>
+    <div class="flex"></div>
+    <div id="issues-message" class="info-message"></div>
+    <a id="issues-toggle" hidden></a>
+    <div id="dartpad-version"></div>
+</footer>
+
+<div class="mdc-dialog"
+     role="alertdialog"
+     aria-modal="true"
+     aria-labelledby="my-dialog-title"
+     aria-describedby="my-dialog-content">
+    <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface">
+            <h2 class="mdc-dialog__title" id="my-dialog-title"></h2>
+            <div class="mdc-dialog__content" id="my-dialog-content"></div>
+            <footer class="mdc-dialog__actions">
+                <button type="button" id="dialog-left-button"
+                        class="mdc-button mdc-dialog__button">
+                    <span class="mdc-button__label">No</span>
+                </button>
+                <button type="button" id="dialog-right-button"
+                        class="mdc-button mdc-dialog__button">
+                    <span class="mdc-button__label">Yes</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+</div>
+<div id="new-pad-dialog"
+     class="mdc-dialog"
+     role="alertdialog"
+     aria-modal="true"
+     aria-labelledby="my-dialog-title"
+     aria-describedby="my-dialog-content">
+    <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface">
+            <h2 class="mdc-dialog__title">New Pad</h2>
+            <div class="mdc-dialog__content">
+                <div class="dart-container">
+                    <div id="new-pad-select-dart" class="select-project-button mdc-ripple-surface mdc-ripple-surface--primary">
+                        <img src="/pictures/logo_dart.png"/>
+                        <span>Dart</span>
+                    </div>
+                    <div id="new-pad-html-switch-container" class="hide">
+                        <div class="mdc-switch mdc-switch--disabled">
+                            <div class="mdc-switch__track"></div>
+                            <div class="mdc-switch__thumb-underlay">
+                                <div class="mdc-switch__thumb">
+                                    <input type="checkbox"
+                                           id="new-pad-html-switch"
+                                           class="mdc-switch__native-control"
+                                           role="switch">
+                                </div>
+                            </div>
+                        </div>
+                        <label for="new-pad-html-switch">HTML</label>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div id="new-pad-select-flutter" class="select-project-button mdc-ripple-surface mdc-ripple-surface--primary">
+                    <img src="/pictures/logo_flutter.png"/>
+                    <span>Flutter</span>
+                </div>
+            </div>
+
+            <footer class="mdc-dialog__actions">
+
+                <button type="button" id="new-pad-cancel-button"
+                        class="mdc-button mdc-dialog__button">
+                    <span class="mdc-button__label">Cancel</span>
+                </button>
+                <button type="button" id="new-pad-create-button"
+                        class="mdc-button mdc-dialog__button">
+                    <span class="mdc-button__label">Create</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+</div>
+</body>
+</html>
+
