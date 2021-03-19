@@ -21,5 +21,5 @@
 - Buttons change colors and disabled when reached a certain count
 
 ## New to FLutter ?
-Try installing through [FlutterMatic](https:www.fluttermatic.github.io)
+Try installing through [FlutterMatic](https://fluttermatic.github.io/#/)
 
