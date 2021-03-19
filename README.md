@@ -6,6 +6,8 @@
 
 ![Flutter Power Counter](https://user-images.githubusercontent.com/32490311/111795705-75ce1980-88ed-11eb-8934-6864dfaa76d2.gif)
 
+[Live Example](https://codepen.io/skimtiyaz/pen/eYBwaYN)
+
 ## Power Packed features
 
 - Ability to define the ongoing process in the Text which changes according to the count
