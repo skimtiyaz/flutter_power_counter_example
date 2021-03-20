@@ -24,15 +24,19 @@ class _MyHomePageState extends State<MyHomePage> {
   // This is the initial value of the counter
   String _below4 = 'Add to count',
       _above4 = 'You have reached the maximum limit';
-      // this is the text to be defifened for the ongoing process
+  // this is the text to be defifened for the ongoing process
   Color _clr = Colors.red,
       _cor = Colors.green,
       _cr = Colors.blue,
       _co = Colors.grey;
-      // These are the colors being used in various places
+  // These are the colors being used in various places
 
   TextStyle _buildTextStyle() => TextStyle(
-      color: _counter <= 4 ? _cr : _clr,
+      color: _counter == 0
+          ? _cor
+          : _counter <= 4
+              ? _cr
+              : _clr,
       fontSize: 72,
       fontWeight: FontWeight.bold);
 // This is the custom style for the counter
@@ -42,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
 // this method increases the counter upto a defined value
   void _decrementCounter() =>
       setState(() => _counter <= 5 && _counter >= 1 ? _counter-- : null);
-      // This method stops the counter at zero
+  // This method stops the counter at zero
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
               Text('${_counter <= 4 ? _below4 : _above4}',
                   style: Theme.of(context).textTheme.headline6),
-                  // This is the text displayed above the counter
+              // This is the text displayed above the counter
               SizedBox(height: 50),
-              Text('${_counter <= 4 ? _counter : 'Stop'}',
+              Text(
+                  '${_counter == 0 ? 'Start' : _counter <= 4 ? _counter : 'Stop'}',
                   style: _buildTextStyle()),
-                  // // This is the counter text with a custom style
+              // // This is the counter text with a custom style
               SizedBox(height: 70),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 FloatingActionButton(
@@ -80,3 +85,4 @@ class _MyHomePageState extends State<MyHomePage> {
             ])));
   }
 }
+
