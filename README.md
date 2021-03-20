@@ -24,6 +24,7 @@
 
 ## New to FLutter ?
 Try installing through [FlutterMatic](https://fluttermatic.github.io/#/)
+
 ![Fm Noto Wide](https://user-images.githubusercontent.com/32490311/111858982-5f62a500-8963-11eb-997c-d2b7787a3832.png)
 
 
