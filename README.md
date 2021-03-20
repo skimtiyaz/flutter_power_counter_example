@@ -4,7 +4,8 @@
 - With added functionalities to the default Flutter starter counter app.
 > Just pull this project and run **` flutter create . `** to recreate the project then run it.
 
-![Flutter Power Counter](https://user-images.githubusercontent.com/32490311/111795705-75ce1980-88ed-11eb-8934-6864dfaa76d2.gif)
+![Flutter Power Counter](https://user-images.githubusercontent.com/32490311/111858667-a602d000-8960-11eb-9fa9-52404950d2dc.gif)
+
 
 [Live Example](https://codepen.io/skimtiyaz/pen/eYBwaYN)
 
